@@ -1,0 +1,24 @@
+version: '3.5'
+services:
+  fridge:
+    container_name: fridge
+    image: fridge
+    restart: unless-stopped
+    environment:
+      - FRIDGE_PROFILE=server
+      - MONGO_URI=mongodb://user:password@MONGO_CONTAINER_NAME:MONGO_PORT/DBNAME?authSource=admin
+    volumes:
+      - /data/fridge:/data/fridge
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: unless-stopped
+    environment:
+      - AUTH=yes
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    volumes:
+      - /data/mongodb:/data/db
+    ports:
+      - "27017:27017"

@@ -7,12 +7,20 @@ import com.example.fridge.dto.UserRoleEnum
 import com.example.fridge.service.UserService
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
+import java.time.ZoneId
+import java.util.*
+import java.util.logging.Logger
 
 @SpringBootApplication
 class FridgeApplication
 
 fun main() {
-    SpringApplicationBuilder(FridgeApplication::class.java).run()
+    // Spring Boot SetTimeZone Asia/Tehran
+    Logger.getGlobal().info("set time zone = Asia/Tehran")
+    TimeZone.setDefault(TimeZone.getTimeZone(ZoneId.of("Asia/Tehran")))
+    SpringApplicationBuilder(FridgeApplication::class.java)
+        .profiles(System.getenv("FRIDGE_PROFILE") ?: "local")
+        .run()
     initData()
 }
 
