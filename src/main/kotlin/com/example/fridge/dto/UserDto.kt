@@ -5,29 +5,29 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
 data class UserCreate(
-    @NotNull
-    @NotBlank
+    @field:NotNull
+    @field:NotBlank
     val name: String,
     val surname: String? = null,
-    @NotNull
-    @NotBlank
-    @Size(min = 3, max = 10)
+    @field:NotNull
+    @field:NotBlank
+    @field:Size(min = 3, max = 10)
     val username: String,
-    @NotNull
-    @NotBlank
-    @Size(min = 3, max = 18)
+    @field:NotNull
+    @field:NotBlank
+    @field:Size(min = 3, max = 18)
     val password: String,
     val role: UserRoleEnum = UserRoleEnum.ADMIN,
 )
 
 data class UserUpdate(
-    @NotNull
-    @NotBlank
+    @field:NotNull
+    @field:NotBlank
     val name: String,
     val surname: String? = null,
-    @NotNull
-    @NotBlank
-    @Size(min = 3, max = 18)
+    @field:NotNull
+    @field:NotBlank
+    @field:Size(min = 3, max = 18)
     val password: String,
     val role: UserRoleEnum,
 )

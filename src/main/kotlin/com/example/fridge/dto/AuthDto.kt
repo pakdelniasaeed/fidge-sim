@@ -56,11 +56,11 @@ enum class UserRoleEnum {
 }
 
 data class LoginRequest(
-    @NotBlank
-    @NotNull
+    @field:NotBlank
+    @field:NotNull
     val username: String,
-    @NotBlank
-    @NotNull
+    @field:NotBlank
+    @field:NotNull
     val password: String,
 )
 

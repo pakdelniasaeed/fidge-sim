@@ -20,7 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 class SecurityConfig(
     private val userDetailsService: UserDetailsServiceImpl,
-    private val unauthorizedHandler: AuthEntryPointJwt,
 ) {
 
     @Bean
@@ -52,11 +51,7 @@ class SecurityConfig(
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.csrf { csrf: CsrfConfigurer<HttpSecurity> -> csrf.disable() }
-            .exceptionHandling { exception ->
-                exception.authenticationEntryPoint(
-                    unauthorizedHandler
-                )
-            }
+            .exceptionHandling {}
             .sessionManagement { session ->
                 session.sessionCreationPolicy(
                     SessionCreationPolicy.STATELESS
