@@ -61,6 +61,7 @@ class SecurityConfig(
                 auth
                     .requestMatchers("/swagger/**", "/swagger-ui/**", "/swagger-doc/**").permitAll()
                     .requestMatchers("/api/auth/**").permitAll()
+                    .requestMatchers("/openapi/**").permitAll()
                     .anyRequest().authenticated()
             }
         http.authenticationProvider(authenticationProvider())

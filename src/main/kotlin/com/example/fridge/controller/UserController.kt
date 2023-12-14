@@ -1,5 +1,6 @@
 package com.example.fridge.controller
 
+import com.example.fridge.domain.UserDocument
 import com.example.fridge.dto.CustomUserDetails
 import com.example.fridge.dto.UserCreate
 import com.example.fridge.dto.UserResponse
@@ -18,7 +19,7 @@ class UserController(
     private val userService: UserService,
 ) {
 
-    @PreAuthorize("hasAuthority('ROLE_SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping("user")
     fun getAll(): ResponseEntity<List<UserResponse>> {
         return ResponseEntity(userService.getAll(), HttpStatus.OK)
@@ -29,19 +30,19 @@ class UserController(
         return ResponseEntity(userService.getCurrent(user), HttpStatus.OK)
     }
 
-    @PreAuthorize("hasAuthority('ROLE_SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @PostMapping("user")
-    fun save(@Valid @RequestBody create: UserCreate): ResponseEntity<Unit> {
+    fun save(@Valid @RequestBody create: UserCreate): ResponseEntity<UserDocument> {
         return ResponseEntity(userService.save(create), HttpStatus.CREATED)
     }
 
-    @PreAuthorize("hasAuthority('ROLE_SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @PutMapping("user/{id}")
-    fun update(@PathVariable id: String, @Valid @RequestBody update: UserUpdate): ResponseEntity<Unit> {
+    fun update(@PathVariable id: String, @Valid @RequestBody update: UserUpdate): ResponseEntity<UserDocument> {
         return ResponseEntity(userService.update(id, update), HttpStatus.OK)
     }
 
-    @PreAuthorize("hasAuthority('ROLE_SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @DeleteMapping("user/{id}")
     fun delete(@PathVariable id: String): ResponseEntity<Unit> {
         return ResponseEntity(userService.delete(id), HttpStatus.OK)

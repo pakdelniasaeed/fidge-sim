@@ -25,10 +25,7 @@ data class UserUpdate(
     @field:NotBlank
     val name: String,
     val surname: String? = null,
-    @field:NotNull
-    @field:NotBlank
-    @field:Size(min = 3, max = 18)
-    val password: String,
+    val password: String? = null,
     val role: UserRoleEnum,
 )
 

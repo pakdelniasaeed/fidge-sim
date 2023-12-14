@@ -19,7 +19,7 @@ class UserDetailsServiceImpl(
 
         return CustomUserDetails(
             UserDetailsInfo(
-                id = user.id.toHexString(),
+                id = user.id,
                 name = user.name,
                 surname = user.surname,
                 username = user.username,

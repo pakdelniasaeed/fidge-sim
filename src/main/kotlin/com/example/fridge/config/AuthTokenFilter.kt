@@ -46,5 +46,6 @@ class AuthTokenFilter(
     override fun shouldNotFilter(request: HttpServletRequest): Boolean {
         return request.servletPath.contains("swagger")
                 || request.servletPath.startsWith("/api/auth")
+                || request.servletPath.startsWith("/openapi")
     }
 }

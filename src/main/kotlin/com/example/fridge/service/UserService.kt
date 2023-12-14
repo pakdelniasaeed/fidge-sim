@@ -15,7 +15,7 @@ class UserService(
     fun getAll(): List<UserResponse> {
         return userRepository.findAll().map {
             UserResponse(
-                id = it.id.toHexString(),
+                id = it.id,
                 name = it.name,
                 surname = it.surname,
                 username = it.username,
@@ -38,11 +38,11 @@ class UserService(
         )
     }
 
-    fun save(create: UserCreate) {
+    fun save(create: UserCreate): UserDocument {
         if (userRepository.existsByUsername(create.username))
             throw EntityAlreadyExistsException("user with ${create.username} already exists!")
 
-        userRepository.save(
+        return userRepository.save(
             UserDocument(
                 name = create.name,
                 surname = create.surname,
@@ -53,13 +53,14 @@ class UserService(
         )
     }
 
-    fun update(id: String, update: UserUpdate) {
-        userRepository.findByIdOrNull(id)?.let { found ->
+    fun update(id: String, update: UserUpdate): UserDocument {
+        return userRepository.findByIdOrNull(id)?.let { found ->
             userRepository.save(
                 found.copy(
                     name = update.name,
                     surname = update.surname,
-                    password = passwordEncoder.encode(update.password),
+                    password = if (update.password == null) found.password
+                    else passwordEncoder.encode(update.password),
                     role = update.role,
                     modifiedDate = System.currentTimeMillis(),
                 )
