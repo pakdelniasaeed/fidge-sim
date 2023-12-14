@@ -35,7 +35,9 @@ interface TestRepository : MongoRepository<TestDocument, String> {
 enum class TestStatusEnum {
     WAITING, STARTED, FAILED, DONE;
 
+    fun isProcessing() = this in getProcessingList()
+
     companion object {
-        fun getPendingList() = listOf(WAITING, STARTED)
+        fun getProcessingList() = listOf(WAITING, STARTED)
     }
 }

@@ -22,13 +22,13 @@ class TestService(
     }
 
     fun save(create: TestCreate): TestDocument {
-        if (existsPendingTest(create.deviceSerial))
+        if (getProcessingTest(create.deviceSerial) != null)
             throw EntityAlreadyExistsException("can not create test when there is a WAITING/STARTED test with this device serial: ${create.deviceSerial}")
         return testRepository.save(create.toDocument())
     }
 
-    private fun existsPendingTest(serial: String): Boolean {
-        return testRepository.findFirstByDeviceSerialAndStatusIn(serial, TestStatusEnum.getPendingList()) != null
+    private fun getProcessingTest(serial: String): TestDocument? {
+        return testRepository.findFirstByDeviceSerialAndStatusIn(serial, TestStatusEnum.getProcessingList())
     }
 
     fun update(id: String, update: TestCreate): TestDocument? {
@@ -52,10 +52,10 @@ class TestService(
     }
 
     fun saveTestData(create: OpenapiTestDataCreate): TestDataDocument? {
-        return testRepository.findFirstByDeviceSerialAndStatusIn(
-            create.Serial,
-            TestStatusEnum.getPendingList()
-        )?.let { foundTest ->
+        return getProcessingTest(create.Serial)?.let { foundTest ->
+            if (foundTest.status == TestStatusEnum.WAITING) {
+                testRepository.save(foundTest.copy(status = TestStatusEnum.STARTED))
+            }
             testDataRepository.save(
                 TestDataDocument(
                     testId = foundTest.id,
