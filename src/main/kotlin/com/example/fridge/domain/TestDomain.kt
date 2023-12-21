@@ -11,6 +11,7 @@ data class TestDocument(
     val id: String = ObjectId().toHexString(),
     val title: String,
     val deviceSerial: String,
+    val timePeriodInMillis: Long = 0L,
     val status: TestStatusEnum = TestStatusEnum.WAITING,
     val paramREFHeaterPower: Int?, // unit = Watt
     val paramFRZHeaterPower: Int?, // unit = Watt

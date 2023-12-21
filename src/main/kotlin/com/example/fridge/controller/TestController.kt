@@ -25,6 +25,12 @@ class TestController(
     }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
+    @GetMapping("test/{id}")
+    fun getById(@PathVariable id: String): ResponseEntity<TestDocument> {
+        return ResponseEntity(testService.getById(id), HttpStatus.OK)
+    }
+
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
     @GetMapping("test/{id}/test-data")
     fun getAllTestData(@PathVariable id: String): ResponseEntity<List<TestDataDocument>> {
         return ResponseEntity(testService.getAllTestData(id), HttpStatus.OK)

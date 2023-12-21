@@ -12,6 +12,7 @@ data class TestCreate(
     @field:NotNull
     @field:NotBlank
     val deviceSerial: String,
+    val timePeriodInMillis: Long,
     val paramREFHeaterPower: Int?, // unit = Watt
     val paramFRZHeaterPower: Int?, // unit = Watt
     val paramICEHeaterPower: Int?, // unit = Watt
@@ -28,6 +29,7 @@ data class TestCreate(
     fun toDocument() = TestDocument(
         title = title,
         deviceSerial = deviceSerial,
+        timePeriodInMillis = timePeriodInMillis,
         paramREFHeaterPower = paramREFHeaterPower,
         paramFRZHeaterPower = paramFRZHeaterPower,
         paramICEHeaterPower = paramICEHeaterPower,

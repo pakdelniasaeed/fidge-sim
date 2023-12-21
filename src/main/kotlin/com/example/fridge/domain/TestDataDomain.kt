@@ -29,5 +29,6 @@ data class TestDataDocument(
 
 interface TestDataRepository : MongoRepository<TestDataDocument, String> {
     fun findAllByTestId(testId: String): List<TestDataDocument>
+    fun existsByTestId(testId: String): Boolean
     fun deleteAllByTestId(testId: String)
 }

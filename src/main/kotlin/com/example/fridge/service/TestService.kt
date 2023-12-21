@@ -13,8 +13,9 @@ class TestService(
 ) {
     fun getAll(paging: PagingRequest): PagingResponse<TestDocument> {
         val res = testRepository.findAll(PageRequest.of(paging.page, paging.size))
+
         return PagingResponse(
-            list = res.toList(),
+            list = res.toList().map { checkStatusAndSave(it) },
             page = paging.page,
             size = paging.size,
             total = res.totalElements.toInt(),
@@ -76,5 +77,30 @@ class TestService(
             )
         }
             ?: throw EntityNotFoundException("there is no test with status WAITING/STARTED and device serial: ${create.Serial}")
+    }
+
+    fun getById(id: String): TestDocument {
+        return testRepository.findByIdOrNull(id)?.let { found ->
+            checkStatusAndSave(test = found)
+        } ?: throw EntityNotFoundException("test not found!")
+    }
+
+    fun checkStatusAndSave(test: TestDocument): TestDocument {
+        return when {
+            isFailed(test) -> testRepository.save(test.copy(status = TestStatusEnum.FAILED))
+            isDone(test) -> testRepository.save(test.copy(status = TestStatusEnum.DONE))
+            else -> test
+        }
+    }
+
+    fun isFailed(test: TestDocument): Boolean {
+        return test.status == TestStatusEnum.WAITING
+                && ((System.currentTimeMillis() - test.createdDate) > (60 * 1000))
+                && !testDataRepository.existsByTestId(testId = test.id)
+    }
+
+    fun isDone(test: TestDocument): Boolean {
+        return test.status == TestStatusEnum.STARTED
+                && ((System.currentTimeMillis() - test.createdDate) > test.timePeriodInMillis)
     }
 }
