@@ -62,7 +62,8 @@ class SecurityConfig(
                     .requestMatchers("/swagger/**", "/swagger-ui/**", "/swagger-doc/**").permitAll()
                     .requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers("/openapi/**").permitAll()
-                    .anyRequest().authenticated()
+                    .requestMatchers("/api/**").authenticated()
+                    .anyRequest().permitAll()
             }
         http.authenticationProvider(authenticationProvider())
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)

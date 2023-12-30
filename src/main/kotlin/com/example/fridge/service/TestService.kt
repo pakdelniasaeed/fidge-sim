@@ -3,6 +3,7 @@ package com.example.fridge.service
 import com.example.fridge.domain.*
 import com.example.fridge.dto.*
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -12,7 +13,13 @@ class TestService(
     private val testDataRepository: TestDataRepository,
 ) {
     fun getAll(paging: PagingRequest): PagingResponse<TestDocument> {
-        val res = testRepository.findAll(PageRequest.of(paging.page, paging.size))
+        val res = testRepository.findAll(
+            PageRequest.of(
+                paging.page,
+                paging.size,
+                Sort.by(Sort.Direction.DESC, "createdDate")
+            )
+        )
 
         return PagingResponse(
             list = res.toList().map { checkStatusAndSave(it) },

@@ -12,7 +12,7 @@ data class TestCreate(
     @field:NotNull
     @field:NotBlank
     val deviceSerial: String,
-    val timePeriodInMillis: Long,
+    val timePeriodInMillis: Long = 86400000L, // = 24 hours
     val paramREFHeaterPower: Int?, // unit = Watt
     val paramFRZHeaterPower: Int?, // unit = Watt
     val paramICEHeaterPower: Int?, // unit = Watt
