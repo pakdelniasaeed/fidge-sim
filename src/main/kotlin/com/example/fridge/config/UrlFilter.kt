@@ -47,6 +47,7 @@ class UrlFilter : OncePerRequestFilter() {
                 }
             } else if (request.requestURI.contains('.') || // Loading files *.*
                 request.requestURI.startsWith("/swagger-doc") ||
+                request.requestURI.startsWith("/openapi") ||
                 request.requestURI == "/swagger" ||
                 request.requestURI.lowercase(Locale.getDefault()).startsWith("/websocket")
             ) {
