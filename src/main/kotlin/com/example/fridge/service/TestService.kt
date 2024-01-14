@@ -6,11 +6,14 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 
 @Service
 class TestService(
     private val testRepository: TestRepository,
     private val testDataRepository: TestDataRepository,
+    private val excelService: ExcelService,
 ) {
     fun getAll(paging: PagingRequest): PagingResponse<TestDocument> {
         val res = testRepository.findAll(
@@ -109,5 +112,12 @@ class TestService(
     fun isDone(test: TestDocument): Boolean {
         return test.status == TestStatusEnum.STARTED
                 && ((System.currentTimeMillis() - test.createdDate) > test.timePeriodInMillis)
+    }
+
+    fun excelDownload(id: String): InputStream {
+        val data = testDataRepository.findAllByTestId(id)
+        val byteArray = excelService.generate(data)
+
+        return ByteArrayInputStream(byteArray)
     }
 }

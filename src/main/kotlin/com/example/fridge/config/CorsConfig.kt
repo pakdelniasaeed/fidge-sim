@@ -11,7 +11,7 @@ class CorsConfig : WebMvcConfigurer {
             .allowedOriginPatterns("*")
             .allowedMethods("*")
             .allowedHeaders("*")
-            .exposedHeaders("Authorization")
+            .exposedHeaders("Authorization", "Content-Disposition")
             .allowCredentials(true)
     }
 }

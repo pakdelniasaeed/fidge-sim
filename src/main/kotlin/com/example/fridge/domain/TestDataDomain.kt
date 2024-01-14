@@ -4,6 +4,7 @@ import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.repository.MongoRepository
+import java.math.BigDecimal
 
 @Document("test-data")
 data class TestDataDocument(
@@ -22,7 +23,7 @@ data class TestDataDocument(
     val dataCURRENT: Int?,
     val dataVOLTAGE: Int?,
     val dataAP: Int?,
-    val dataPF: Int?,
+    val dataPF: BigDecimal?,
     val createdDate: Long = System.currentTimeMillis(),
     val modifiedDate: Long = System.currentTimeMillis(),
 )

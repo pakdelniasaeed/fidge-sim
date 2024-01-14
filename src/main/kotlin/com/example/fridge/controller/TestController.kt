@@ -8,7 +8,10 @@ import com.example.fridge.dto.TestCreate
 import com.example.fridge.service.TestService
 import jakarta.validation.Valid
 import org.springdoc.core.annotations.ParameterObject
+import org.springframework.core.io.InputStreamResource
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -36,6 +39,27 @@ class TestController(
         return ResponseEntity(testService.getAllTestData(id), HttpStatus.OK)
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
+    @GetMapping("test/{id}/test-data/excelDownload")
+    fun getAllTestDataExcelDownload(@PathVariable id: String): ResponseEntity<InputStreamResource> {
+        val headers = HttpHeaders()
+        headers.add(
+            "Content-Disposition",
+            "attachment; filename=AllTests.xlsx"
+        )
+
+
+        return ResponseEntity
+            .ok()
+            .headers(headers)
+            .contentType(MediaType.valueOf("application/vnd.ms-excel"))
+            .body(
+                InputStreamResource(
+                    testService.excelDownload(id)
+                )
+            )
+
+    }
     @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
     @PostMapping("test")
     fun save(@Valid @RequestBody create: TestCreate): ResponseEntity<TestDocument> {

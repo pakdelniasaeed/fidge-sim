@@ -4,6 +4,7 @@ import com.example.fridge.domain.TestDocument
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
+import java.math.BigDecimal
 
 data class TestCreate(
     @field:NotNull
@@ -73,5 +74,5 @@ data class OpenapiTestDataCreate(
     @get:JsonProperty("AP")
     val AP: Int?,
     @get:JsonProperty("PF")
-    val PF: Int?,
+    val PF: BigDecimal?,
 )

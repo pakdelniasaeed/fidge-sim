@@ -34,7 +34,7 @@ class UrlFilter : OncePerRequestFilter() {
             response.addHeader("Access-Control-Allow-Credentials", "true")
             response.addHeader(
                 "Access-Control-Allow-Headers",
-                "Content-Type, Authorization"
+                "Content-Type, Authorization, Content-Disposition"
             )
             response.addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE, PATCH")
             response.addHeader("max-age", "")
