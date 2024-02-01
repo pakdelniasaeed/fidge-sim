@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     environment:
       - FRIDGE_PROFILE=server
-      - MONGO_URI=mongodb://user:password@MONGO_CONTAINER_NAME:MONGO_PORT/DBNAME?authSource=admin
+      - MONGO_URI=mongodb://root:root@mongo:27017/fridge?authSource=admin
     volumes:
       - /data/fridge:/data/fridge
 
