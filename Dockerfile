@@ -1,4 +1,4 @@
-FROM openjdk:17-jre
+FROM openjdk:17-jdk-slim
 ENV SERVER_PORT=80
 EXPOSE 80
 VOLUME /data

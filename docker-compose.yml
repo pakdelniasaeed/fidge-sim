@@ -6,18 +6,18 @@ services:
     restart: unless-stopped
     environment:
       - FRIDGE_PROFILE=server
-      - MONGO_URI=mongodb://root:root@mongo:27017/fridge?authSource=admin
+      - MONGO_URI=mongodb://root:1ua736qxyrw8tsy59r5f@mongo:27017/fridge?authSource=admin
     volumes:
       - /data/fridge:/data/fridge
 
   mongo:
     container_name: mongo
-    image: mongo
+    image: mongo:4.4
     restart: unless-stopped
     environment:
       - AUTH=yes
       - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_ROOT_PASSWORD=1ua736qxyrw8tsy59r5f
     volumes:
       - /data/mongodb:/data/db
     ports:
